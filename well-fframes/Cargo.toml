@@ -1,0 +1,17 @@
+[package]
+name = "well-fframes"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+fframes = { version = "=1.2.1-rc.44", features = ["cli"] }
+
+# On Linux/macOS FFmpeg is linked statically and libx264 has to be compiled in.
+# On Windows the shared FFmpeg 9 from FFMPEG_DIR already contains libx264.
+[target.'cfg(not(windows))'.dependencies]
+fframes = { version = "=1.2.1-rc.44", features = ["cli", "h264", "libav-agree-gpl"] }
+
+[profile.release]
+opt-level = 3
+codegen-units = 4
